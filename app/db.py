@@ -24,14 +24,14 @@ def get_cursor(dictionary=False):
         db.close()
 
 def init_db():
-    cursor = get_cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS transactions (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            date DATE NOT NULL,
-            description VARCHAR(255) NOT NULL,
-            category VARCHAR(100),
-            type ENUM('Income', 'Expense') NOT NULL,
-            amount DECIMAL(10,2) NOT NULL
-        )
+    with get_cursor() as cursor:
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS transactions (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                date DATE NOT NULL,
+                description VARCHAR(255) NOT NULL,
+                category VARCHAR(100),
+                type ENUM('Income', 'Expense') NOT NULL,
+                amount DECIMAL(10,2) NOT NULL
+            )
         """)
