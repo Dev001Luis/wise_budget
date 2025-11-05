@@ -1,21 +1,13 @@
-from flask import Flask
-import mysql.connector, os
-from dotenv import load_dotenv
-
-load_dotenv()
+from flask import Flask, render_template, request, redirect, url_for, flash
+from app import db
 
 app = Flask(__name__)
+app.secret_key = "supersecretkey"
 
-db = mysql.connector.connect(
-    host=os.getenv("DB_HOST"),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD")
-)
+# Initialize DB (once at startup)
+db.init_db()
 
-cursor = db.cursor()
-cursor.execute("CREATE DATABASE IF NOT EXISTS wisebudget")
-cursor.close()
-db.close()
-
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route('/')
+def index():    
+    transactions = db.db_get_transactions()
+    return render_template('index.html', transactions=transactions)
