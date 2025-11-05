@@ -24,14 +24,26 @@ def get_cursor(dictionary=False):
         db.close()
 
 def init_db():
+    create_table_transaction_query = """
+        CREATE TABLE IF NOT EXISTS transactions (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            date DATE NOT NULL,
+            description VARCHAR(255) NOT NULL,
+            category VARCHAR(100),
+            type ENUM('Income', 'Expense') NOT NULL,
+            amount DECIMAL(10,2) NOT NULL
+        );
+    """
+
+    create_table_category_colors_query = """
+        CREATE TABLE IF NOT EXISTS category_colors (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            category VARCHAR(100) UNIQUE NOT NULL,
+            color VARCHAR(20) NOT NULL
+        );
+    """
+
     with get_cursor() as cursor:
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS transactions (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                date DATE NOT NULL,
-                description VARCHAR(255) NOT NULL,
-                category VARCHAR(100),
-                type ENUM('Income', 'Expense') NOT NULL,
-                amount DECIMAL(10,2) NOT NULL
-            )
-        """)
+        cursor.execute(create_table_transaction_query)
+        cursor.execute(create_table_category_colors_query)
+
