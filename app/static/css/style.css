@@ -1,12 +1,12 @@
 /* General page setup */
 body {
-  background-color: #f8f9fa;
+  background-color: rgba(17, 137, 69, 0.514);
   font-family: 'Inter', sans-serif;
   color: #333;
 }
 
 /* Card general style */
-.chart-card, .table-card {
+.personal_card {
   border: none;
   border-radius: 12px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
@@ -14,47 +14,42 @@ body {
   transition: transform 0.1s ease-in-out, box-shadow 0.2s ease;
 }
 
-.chart-card:hover, .table-card:hover {
+.personal_card:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
 }
 
 /* Card header */
-.chart-card .card-header,
-.table-card .card-header {
-  background: linear-gradient(90deg, #007bff, #00bcd4);
+.personal_card_header {
+  background: linear-gradient(90deg, rgba(46,204,113,0.2), rgba(21, 246, 115, 0.433));
   color: #fff;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   padding: 0.75rem 1rem;
 }
 
-.chart-card .card-header h5,
-.table-card .card-header h5 {
+.personal_header_text h5 {
   font-weight: 500;
   font-size: 1.1rem;
 }
 
 /* Buttons inside cards */
-.chart-card .btn,
-.table-card .btn {
+.personal_card_btn {
   color: #fff;
   border-color: rgba(255, 255, 255, 0.6);
 }
 
-.chart-card .btn:hover {
+.personal_card_btn:hover {
   background-color: rgba(255, 255, 255, 0.15);
 }
 
 /* Card body */
-.chart-card .card-body,
-.table-card .card-body {
+.personal_card_body {
   padding: 1.2rem;
 }
 
 /* Card footer */
-.chart-card .card-footer,
-.table-card .card-footer {
+.personal_card_footer {
   background-color: #f1f3f5;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -69,7 +64,7 @@ body {
 }
 
 .table thead th {
-  background-color: #007bff;
+  background-color: rgba(46, 204, 112, 0.651);
   color: #fff;
 }
 

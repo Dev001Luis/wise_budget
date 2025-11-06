@@ -9,10 +9,18 @@ def get_transactions(limit=25):
         return result if result else []
 
 
-def add_transaction(date, description, category, type, amount):
+def get_currencies():
+    with get_cursor(dictionary=True) as cursor:
+        query = "SELECT * FROM currencies ORDER BY id "
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result if result else []
+
+
+def add_transaction(date, description, category, type, currency, amount):
     with get_cursor() as cursor:
         query = """
-            INSERT INTO transactions (date, description, category, type, amount)
+            INSERT INTO transactions (date, description, category, type, currency, amount)
             VALUES (%s, %s, %s, %s, %s)
         """
         cursor.execute(query, (date, description, category, type, amount))
@@ -67,22 +75,6 @@ def get_balance_trend():
         result = cursor.fetchall()
         return result or []
 
-
-# def get_category_colors():
-#     with get_cursor(dictionary=True) as cursor:
-#         query = ("SELECT category, color FROM category_colors")
-#         cursor.execute(query)
-#         results = cursor.fetchall()
-#         return {row["category"]: row["color"] for row in results}
-
-# def set_category_color(category, color):
-#     with get_cursor() as cursor:
-#         query = """
-#             INSERT INTO category_colors (category, color)
-#             VALUES (%s, %s)
-#             ON DUPLICATE KEY UPDATE color = VALUES(color)
-#         """
-#         cursor.execute(query, (category, color))
 
 def get_category_colors():
     """

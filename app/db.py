@@ -31,6 +31,7 @@ def init_db():
             description VARCHAR(255) NOT NULL,
             category VARCHAR(100),
             type ENUM('Income', 'Expense') NOT NULL,
+            currency VARCHAR(10) default '£',
             amount DECIMAL(10,2) NOT NULL
         );
     """

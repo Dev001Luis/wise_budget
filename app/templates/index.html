@@ -8,45 +8,52 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-<div class="container my-5">
+<div class="container card my-5 mx-5 bg-dark">
 
-    <h1 class="mb-4">💰 Personal Finance Tracker</h1>
+    <h1 class="mb-4 mt-4 bg-success text-white personal_card_header">💰 Personal Finance Tracker</h1>
 
     <!-- Flash messages -->
     {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="alert alert-info">
-          {% for message in messages %}
-            <p>{{ message }}</p>
-          {% endfor %}
-        </div>
-      {% endif %}
+        {% if messages %}
+            <div class="alert alert-info">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
     {% endwith %}
 
     <!-- Add transaction form -->
     <div class="card mb-4">
         <div class="card-body">
-            <form action="{{ url_for('add') }}" method="post" class="row g-3">
-                <div class="col-md-2">
-                    <input type="date" name="date" class="form-control" required>
+            <form action="{{ url_for('add') }}" method="post" class="row g-3 justify-content-between">
+                <div class="col-md-1">
+                    <input type="date" name="date" class="form-control fs-8" required>
                 </div>
                 <div class="col-md-3">
-                    <input type="text" name="description" placeholder="Description" class="form-control" required>
+                    <input type="text" name="description" placeholder="Description" class="form-control fs-8" required>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" name="category" placeholder="Category" class="form-control">
+                    <input type="text" name="category" placeholder="Category" class="form-control fs-8">
                 </div>
                 <div class="col-md-2">
                     <select name="type" class="form-select" required>
-                        <option value="Income">Income</option>
-                        <option value="Expense">Expense</option>
+                        <option value="Income" class="fs-8">Income</option>
+                        <option value="Expense" class="fs-8">Expense</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <input type="number" step="0.01" name="amount" placeholder="Amount" class="form-control" required>
+                <div class="col-md-1">
+                    <input type="number" step="0.01" name="amount" placeholder="0,00" class="form-control fs-8" required>
+                </div class="col-md-1">
+                <div class="col-md-1">
+                    <select class="form-select" aria-labelledby="Currency">
+                        {% for c in currencies %}
+                            <option value="{{ c.id }}" > {{ c.simbol }} </option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="col-md-1">
-                    <button type="submit" class="btn btn-primary w-100">Add</button>
+                    <button type="submit" class="btn btn-success w-100">Add</button>
                 </div>
             </form>
         </div>
@@ -54,7 +61,7 @@
 
     <!-- Transactions table -->
     <table class="table table-striped">
-        <thead>
+        <thead class="bg-success">
             <tr>
                 <th>Date</th>
                 <th>Description</th>
@@ -70,8 +77,12 @@
                 <td>{{ t.date }}</td>
                 <td>{{ t.description }}</td>
                 <td>{{ t.category or '-' }}</td>
-                <td>{{ t.type }}</td>
-                <td>{{ t.amount }}</td>
+                {% if t.type == "Expense" %}
+                    <td>{{ t.type }} <i class="fa-solid fa-arrow-down " style="color: red"></i></td>
+                {% else %}
+                    <td>{{ t.type }} <i class="fa-solid fa-arrow-up " style="color: green"></i></td>
+                {% endif %}
+                <td>{{ t.currency }}&nbsp;&nbsp;{{ t.amount }}</td>
                 <td>
                     <a href="{{ url_for('delete', transaction_id=t.id) }}" class="btn btn-sm btn-danger">Delete</a>
                 </td>
@@ -90,25 +101,25 @@
     <div class="row">
         <!-- Expense Breakdown -->
         <div class="col-md-6 mb-4">
-            <div class="card shadow-sm rounded-3">
-                <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card personal_card">
+                <div class="card-header d-flex justify-content-between align-items-center personal_card_header bg-success">
                     <h5 class="mb-0 toggle-header" data-target="#expenseSection"> Expenses Breakdown</h5>
-                    <button id="editColorsBtn" class="btn btn-sm btn-outline-secondary">
+                    <button id="editColorsBtn" class="btn personal_card_btn">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </div>
-                <div class="card-body" id="expenseSection">
+                <div class="card-body personal_card_body" id="expenseSection">
                     <canvas id="expenseChart" height="250"></canvas>
                 </div>
             </div>
         </div>
         <!-- Balance Trend -->
         <div class="col-md-6 mb-4">
-            <div class="card shadow-sm rounded-3">
-                <div class="card-header bg-success text-white fw-bold toggle-header" data-target="#balanceSection">
+            <div class="card personal_card">
+                <div class="card-header personal_card_header bg-success text-white fw-bold toggle-header" data-target="#balanceSection">
                     📈 Account Balance
                 </div>
-                <div class="card-body" id="balanceSection">
+                <div class="card-body personal_card_body" id="balanceSection">
                     <canvas id="balanceChart" height="250"></canvas>
                 </div>
             </div>

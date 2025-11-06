@@ -1,12 +1,13 @@
 from flask import render_template, request, redirect, url_for, flash, jsonify
 from app import app   # import app instance from __init__.py
-from app.models import get_transactions, add_transaction, delete_transaction
+from app.models import get_transactions, get_currencies, add_transaction, delete_transaction
 
 
 @app.route('/')
 def index():
     transactions = get_transactions()
-    return render_template('index.html', transactions=transactions)
+    currencies = get_currencies()
+    return render_template('index.html', transactions=transactions, currencies=currencies)
 
 
 @app.route('/add', methods=['POST'])

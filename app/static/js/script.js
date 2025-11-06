@@ -13,42 +13,6 @@ function getRandomColor() {
 }
 
 // =============================
-// Load Expense Pie Chart
-// =============================
-// async function loadExpenseChart() {
-//     try {
-//         const [dataRes, colorRes] = await Promise.all([
-//             fetch("/expense-breakdown"),
-//             fetch("/category-colors")
-//         ]);
-
-//         if (!dataRes.ok || !colorRes.ok) throw new Error("Failed to fetch expense data or colors");
-
-//         const data = await dataRes.json();
-//         const colors = await colorRes.json();
-//         console.log(colors)
-
-//         const labels = data.map(d => d.category || "Uncategorized");
-//         const amounts = data.map(d => d.total);
-//         const bgColors = labels.map(cat => colors[cat] || getRandomColor());
-//         console.log(bgColors)
-
-//         const ctx = document.getElementById("expenseChart").getContext("2d");
-
-//         if (window.expenseChartInstance) window.expenseChartInstance.destroy();
-
-//         window.expenseChartInstance = new Chart(ctx, {
-//             type: "pie",
-//             data: { labels, datasets: [{ data: amounts, backgroundColor: bgColors }] },
-//             options: { responsive: true, plugins: { legend: { position: "left" } } }
-//         });
-
-//     } catch (err) {
-//         console.error("Error loading expense chart:", err);
-//     }
-// }
-
-// =============================
 // Load Expense Pie Chart (with auto DB color insert)
 // =============================
 async function loadExpenseChart() {
